@@ -8,9 +8,9 @@ Created on Tue Jan 18 14:16:05 2022
 import numpy as np
 import pandas as pd
 
-ds_test=pd.read_csv("spotify_dataset_test.csv")
-ds_train=pd.read_csv("spotify_dataset_train.csv")
-ds_subset=pd.read_csv("spotify_dataset_subset.csv")
+ds_test=pd.read_csv("data/spotify_dataset_test.csv")
+ds_train=pd.read_csv("data/spotify_dataset_train.csv")
+ds_subset=pd.read_csv("data/spotify_dataset_subset.csv")
 
 print("Taille du dataset_test :",np.shape( ds_test))
 print("Taille du dataset_train :",np.shape(ds_train))
