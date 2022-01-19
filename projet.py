@@ -7,20 +7,27 @@ Created on Tue Jan 18 14:16:05 2022
 
 import numpy as np
 import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
 
 ds_test=pd.read_csv("data/spotify_dataset_test.csv")
 ds_train=pd.read_csv("data/spotify_dataset_train.csv")
-ds_subset=pd.read_csv("data/spotify_dataset_subset.csv")
 
 print("Taille du dataset_test :",np.shape( ds_test))
 print("Taille du dataset_train :",np.shape(ds_train))
-#on a une colonne en plus correspondant au genre 
-print("Taille du dataset dataset_subset :",np.shape(ds_subset))
-
 
 ds_test.info()
 ds_train.info()
-ds_subset.info()
+
+y=ds_train.iloc[0:500000, [16]]
+ds_test=ds_test.drop(columns = ['release_date','explicit','mode','key'])
+ds_train=ds_train.drop(columns = ['release_date','explicit','mode','key','genre'])
 
 
-print(ds_test.head())
+#Essai avec le randomforest
+clf = RandomForestClassifier()
+clf.fit(ds_train, y)
+
+print(clf.predict(ds_test))
+
+
+
