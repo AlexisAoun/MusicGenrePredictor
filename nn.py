@@ -4,10 +4,9 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from datetime import datetime
 
-#data extraction 
+#----------data extraction/preparing the training and testing sets---------------------
 data=pd.read_csv("data/spotify_dataset_train.csv")
 
-#preparing the training and testing sets
 
 sizeOfTestingSet = 300
 
@@ -17,7 +16,10 @@ data = data.drop(columns='genre')
 data = data.to_numpy()
 labels = labels.to_numpy()
 
-#-1-normalize the features 
+genres = ['r&b' ,'rap' ,'classical' ,'salsa' ,'edm' ,'hip hop' ,'trap' ,'techno' 
+,'jazz' ,'metal' ,'country' ,'rock' ,'reggae' , 'latin' ,'disco' ,'soul' ,'chanson' 
+,'blues' ,'dance' ,'electro' ,'punk' ,'folk' ,'pop']
+#-------------------1-normalize the features 
 #features to be normalized : popularity, key, loundess, tempo, duration_ms, time_signature
 
 #convert all dates into years (and to int in the process)
@@ -43,11 +45,38 @@ for i in range(16):
    scaler.fit(column)
    scalledData[:,i] = scaler.transform(column)[:,0]
 
+#replacing genres name by there respective indexes 
+labelsInt = []
+for row in labels:
+    labelsInt.append(genres.index(row))
 
-#-2-splitting the dataset between training and testing set
-#waring: not optimized at all, could hurt your eyes
-#trainingSet = tmp[0] 
-#testingSet = tmp[1]
-#
-#print(trainingSet.shape())
-#print(testingSet.shape())
+labelsInt = np.array(labelsInt)
+#-----------------2-splitting the dataset between training and testing set
+#warning: not optimized at all, could hurt your eyes
+
+testX = []
+testY = []
+
+trainX = []
+trainY = []
+
+c = 0
+for i in scalledData:
+    if c < sizeOfTestingSet:
+        trainX.append(i)
+        trainY.append(labelsInt[c])
+    else:
+        testX.append(i)
+        testY.append(labelsInt[c])
+    c+=1
+
+trainX = np.array(trainX)
+trainY = np.array(trainY)
+testX = np.array(testX)
+testY = np.array(testY)
+
+print(scalledData.shape)
+print(testX.shape)
+print(testY.shape)
+print(trainX.shape)
+print(trainY.shape)
