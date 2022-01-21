@@ -9,7 +9,7 @@ from random import randrange
 data=pd.read_csv("data/spotify_dataset_train.csv")
 
 
-sizeOfTestingSet = 300
+sizeOfTestingSet = 500
 
 labels = data['genre']
 data = data.drop(columns='genre')
@@ -61,30 +61,41 @@ testY = []
 trainX = []
 trainY = []
 
-picked = []
-for i in range(sizeOfTestingSet):
-    tmp = randrange(scalledData.shape[0])
-    if tmp not in picked:
-       picked.append(tmp)  
-
-print(picked)
-c=0
+c = 0
 for i in scalledData:
-    if c in picked:
-        testX.append(i)
-        testY.append(labelsInt[c])
-    else:
+    if c > sizeOfTestingSet:
         trainX.append(i)
         trainY.append(labelsInt[c])
+    else:
+        testX.append(i)
+        testY.append(labelsInt[c])
     c+=1
+
+#picked = []   ##Randomized test picker
+#for i in range(sizeOfTestingSet):
+#    tmp = randrange(scalledData.shape[0])
+#    if tmp not in picked:
+#       picked.append(tmp)  
+#
+#c=0
+#for i in scalledData:
+#    if c in picked:
+#        testX.append(i)
+#        testY.append(labelsInt[c])
+#    else:
+#        trainX.append(i)
+#        trainY.append(labelsInt[c])
+#    c+=1
 
 trainX = np.array(trainX)
 trainY = np.array(trainY)
 testX = np.array(testX)
 testY = np.array(testY)
 
-##--------------The Model --------------------------------------
-#
+print(testX.shape)
+print(testY.shape)
+#--------------The Model --------------------------------------
+
 #model = tf.keras.Sequential(
 #    [ 
 #        tf.keras.Input(shape=(16)),
@@ -97,11 +108,11 @@ testY = np.array(testY)
 #model.compile(loss="sparse_categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
 #model.fit(trainX, trainY, epochs=50)
 #
-##model.save('models/model1')
-#
-##model = tf.keras.models.load_model('models/model1')
-#
-#score = model.evaluate(testX, testY, verbose=0)
-#print("Test loss:", score[0])
-#print("Test accuracy:", score[1])
+#model.save('models/model1')
+
+model = tf.keras.models.load_model('models/model1')
+
+score = model.evaluate(testX, testY, verbose=0)
+print("Test loss:", score[0])
+print("Test accuracy:", score[1])
 
