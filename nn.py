@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from datetime import datetime
+from random import randrange
 
 #----------data extraction/preparing the training and testing sets---------------------
 data=pd.read_csv("data/spotify_dataset_train.csv")
@@ -60,9 +61,16 @@ testY = []
 trainX = []
 trainY = []
 
-c = 0
+picked = []
+for i in range(sizeOfTestingSet):
+    tmp = randrange(scalledData.shape[0])
+    if tmp not in picked:
+       picked.append(tmp)  
+
+print(picked)
+c=0
 for i in scalledData:
-    if c < sizeOfTestingSet:
+    if c in picked:
         testX.append(i)
         testY.append(labelsInt[c])
     else:
@@ -75,25 +83,25 @@ trainY = np.array(trainY)
 testX = np.array(testX)
 testY = np.array(testY)
 
-#--------------The Model --------------------------------------
+##--------------The Model --------------------------------------
+#
+#model = tf.keras.Sequential(
+#    [ 
+#        tf.keras.Input(shape=(16)),
+#        tf.keras.layers.Dense(256, activation=tf.nn.relu),
+#        tf.keras.layers.Dense(128, activation=tf.nn.relu),
+#        tf.keras.layers.Dense(23, activation=tf.nn.softmax)
+#    ]
+#)
+#
+#model.compile(loss="sparse_categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
+#model.fit(trainX, trainY, epochs=50)
+#
+##model.save('models/model1')
+#
+##model = tf.keras.models.load_model('models/model1')
+#
+#score = model.evaluate(testX, testY, verbose=0)
+#print("Test loss:", score[0])
+#print("Test accuracy:", score[1])
 
-model = tf.keras.Sequential(
-    [ 
-        tf.keras.Input(shape=(16)),
-        tf.keras.layers.Dense(256, activation=tf.nn.relu),
-        tf.keras.layers.Dense(256, activation=tf.nn.relu),
-        tf.keras.layers.Dense(23, activation=tf.nn.softmax)
-    ]
-)
-
-model.compile(loss="sparse_categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
-model.fit(trainX, trainY, epochs=75)
-
-#model.save('models/model1')
-
-
-#model = tf.keras.models.load_model('models/model1')
-
-score = model.evaluate(testX, testY, verbose=0)
-print("Test loss:", score[0])
-print("Test accuracy:", score[1])
