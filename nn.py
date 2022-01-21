@@ -18,6 +18,7 @@ data = data.to_numpy()
 labels = labels.to_numpy()
 
 genres = ['r&b' ,'rap' ,'classical' ,'salsa' ,'edm' ,'hip hop' ,'trap' ,'techno' 
+genres = ['r&b' ,'rap' ,'classical' ,'salsa' ,'edm' ,'hip hop' ,'techno' 
 ,'jazz' ,'metal' ,'country' ,'rock' ,'reggae' , 'latin' ,'disco' ,'soul' ,'chanson' 
 ,'blues' ,'dance' ,'electro' ,'punk' ,'folk' ,'pop']
 #-------------------1-normalize the features 
