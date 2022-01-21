@@ -52,7 +52,7 @@ for row in labels:
 
 labelsInt = np.array(labelsInt)
 #-----------------2-splitting the dataset between training and testing set
-#warning: not optimized at all, could hurt your eyes
+#warning: not the most optimized way (at all), could hurt your eyes
 
 testX = []
 testY = []
@@ -63,11 +63,11 @@ trainY = []
 c = 0
 for i in scalledData:
     if c < sizeOfTestingSet:
-        trainX.append(i)
-        trainY.append(labelsInt[c])
-    else:
         testX.append(i)
         testY.append(labelsInt[c])
+    else:
+        trainX.append(i)
+        trainY.append(labelsInt[c])
     c+=1
 
 trainX = np.array(trainX)
@@ -75,8 +75,25 @@ trainY = np.array(trainY)
 testX = np.array(testX)
 testY = np.array(testY)
 
-print(scalledData.shape)
-print(testX.shape)
-print(testY.shape)
-print(trainX.shape)
-print(trainY.shape)
+#--------------The Model --------------------------------------
+
+model = tf.keras.Sequential(
+    [ 
+        tf.keras.Input(shape=(16)),
+        tf.keras.layers.Dense(256, activation=tf.nn.relu),
+        tf.keras.layers.Dense(256, activation=tf.nn.relu),
+        tf.keras.layers.Dense(23, activation=tf.nn.softmax)
+    ]
+)
+
+model.compile(loss="sparse_categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
+model.fit(trainX, trainY, epochs=75)
+
+#model.save('models/model1')
+
+
+#model = tf.keras.models.load_model('models/model1')
+
+score = model.evaluate(testX, testY, verbose=0)
+print("Test loss:", score[0])
+print("Test accuracy:", score[1])
