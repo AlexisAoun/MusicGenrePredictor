@@ -11,6 +11,9 @@ genres = ['r&b' ,'rap' ,'classical' ,'salsa' ,'edm' ,'hip hop', 'techno'
 ,'blues' ,'dance' ,'electro' ,'punk' ,'folk' ,'pop']
 
 
+def getGenres():
+    return genres
+
 #return the data and their labels in the form of a numpy arrays
 def extractionDataset():
     data = pd.read_csv("data/spotify_dataset_train.csv")
