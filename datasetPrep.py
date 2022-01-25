@@ -136,4 +136,10 @@ def computeDatasets(sizeOfTestset = sizeTest, mode=0):
     scalledData = datasetPreparation(data)
     labels = labelsToIndex(labels)
     return computeTestset(scalledData, labels, sizeOfTestset, mode)
+
+#return scalled and prepared challenge dataset
+def computeChallengeSet():
+    data = extractionChallenge()
+    scalledData = datasetPreparation(data)
+    return scalledData
     
