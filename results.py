@@ -23,4 +23,6 @@ def getRes():
     resDT = pd.DataFrame(results,columns=['genre'])    
     
     
-    resDT.to_csv("output2.csv", sep='\t', encoding='utf-8')
+    resDT.to_csv("output3.csv", sep='\t', encoding='utf-8')
+
+getRes()
