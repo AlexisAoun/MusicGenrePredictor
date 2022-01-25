@@ -104,11 +104,6 @@ def computeTestset(scalledData, labels, size=sizeTest, mode=0):
                 trainY.append(labels[c])
             c+=1
         
-        trainX = np.array(trainX)
-        trainY = np.array(trainY)
-        testX = np.array(testX)
-        testY = np.array(testY)
-    
     elif mode == 1: #pick first n=size elements
         c = 0
         for i in scalledData:
@@ -119,6 +114,11 @@ def computeTestset(scalledData, labels, size=sizeTest, mode=0):
                 testX.append(i)
                 testY.append(labels[c])
             c+=1
+
+    trainX = np.array(trainX)
+    trainY = np.array(trainY)
+    testX = np.array(testX)
+    testY = np.array(testY)
 
     return trainX, trainY, testX, testY
 
