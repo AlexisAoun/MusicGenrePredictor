@@ -126,6 +126,57 @@ def datasetPreparation(data):
 
     return scalledData
 
+#args:  scalled dataset 
+#       array of labels indexes       
+#       size of the testSet
+#       mode : 0 - randomized testset picker
+#              1 - pickes first n=size elements of data for testset
+#return trainX data for training
+#       trainY labels for training 
+#       testX data for testing
+#       testY labels for testing
+def computeTestset(scalledData, labels, size=sizeTest, mode=0):
+    testY = []
+    testX = []
+    
+    trainX = []
+    trainY = []
+
+    if mode == 0: #Randomized test picker
+        picked = []   
+        for i in range(size):
+            tmp = randrange(scalledData.shape[0])
+            if tmp not in picked:
+               picked.append(tmp)  
+        
+        c=0
+        for i in scalledData:
+            if c in picked:
+                testX.append(i)
+                testY.append(labels[c])
+            else:
+                trainX.append(i)
+                trainY.append(labels[c])
+            c+=1
+        
+    elif mode == 1: #pick first n=size elements
+        c = 0
+        for i in scalledData:
+            if c > size:
+                trainX.append(i)
+                trainY.append(labels[c])
+            else:
+                testX.append(i)
+                testY.append(labels[c])
+            c+=1
+
+    trainX = np.array(trainX)
+    trainY = np.array(trainY)
+    testX = np.array(testX)
+    testY = np.array(testY)
+
+    return trainX, trainY, testX, testY
+
 def getOutputQty():
     return numOfIntervals
 
