@@ -27,8 +27,8 @@ def extractionDataset():
 
 def computeIntervals(n=numOfIntervals):
     intervals = []
-    i = 0
     j = 100/n
+    i = j
     while i < 100:
         intervals.append(i)
         i += j
@@ -41,7 +41,7 @@ def labelsIndexation(labels):
     intervals = computeIntervals()
     output = []
     for p in labels:
-        counter=0
+        counter = 0
         flag = False
         for i in intervals:
             if p <= i and not flag:   
@@ -176,6 +176,20 @@ def computeTestset(scalledData, labels, size=sizeTest, mode=0):
     testY = np.array(testY)
 
     return trainX, trainY, testX, testY
+
+#args   size of the testSet
+#       mode : 0 - randomized testset picker
+#              1 - pickes first n=size elements of data for testset
+#              
+#return trainX data for training
+#       trainY labels for training 
+#       testX data for testing
+#       testY labels for testing
+def computeDatasets(sizeOfTestset = sizeTest, mode=1):
+    data, labels = extractionDataset() 
+    scalledData = datasetPreparation(data)
+    labels = labelsIndexation(labels)
+    return computeTestset(scalledData, labels, sizeOfTestset, mode)
 
 def getOutputQty():
     return numOfIntervals
